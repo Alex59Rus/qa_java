@@ -33,7 +33,7 @@ public class LionTest {
     }
 
     @Test
-    public void getKittensIsCorrect() throws Exception{
+    public void getKittensIsCorrect() {
 
         int expectedCount = 5;
         Mockito.when(feline.getKittens()).thenReturn(expectedCount);
