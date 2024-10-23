@@ -36,7 +36,7 @@ public class LionParameterized {
     }
 
     @Test
-    public void doesHaveManeIsCorrect() {
+    public void doesHaveManeIsCorrect() throws Exception{
         MatcherAssert.assertThat("Грива есть только у льва",
                 new Lion(this.sex, feline).doesHaveMane(),
                 equalTo(hasMane)

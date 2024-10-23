@@ -1,5 +1,6 @@
 import com.example.Feline;
 import com.example.Lion;
+import org.hamcrest.MatcherAssert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,17 +11,19 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LionTest {
+
     @Mock
     private Feline feline;
     private Lion lion;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception{
         lion = new Lion("Самец", feline);
     }
 
@@ -30,11 +33,15 @@ public class LionTest {
     }
 
     @Test
-    public void getKittensIsCorrect() {
+    public void getKittensIsCorrect() throws Exception{
 
         int expectedCount = 5;
         Mockito.when(feline.getKittens()).thenReturn(expectedCount);
 
+        MatcherAssert.assertThat("Некорректное количество котят",
+                lion.getKittens(),
+                equalTo(expectedCount)
+        );
     }
 
     @Test
