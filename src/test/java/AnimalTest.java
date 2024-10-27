@@ -1,30 +1,30 @@
 import com.example.Animal;
 
-import java.util.List;
-
+import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.assertj.core.api.Assertions.catchThrowable;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class AnimalTest {
     Animal animal = new Animal();
 
     @Test
     public void getFamilyIsCorrect() {
+        String expectedString = "Существует несколько семейств: заячьи, беличьи, мышиные, кошачьи, псовые, медвежьи, куньи";
+        MatcherAssert.assertThat("Некорректный перечень семейств",
+                new Animal().getFamily(),
+                equalTo(expectedString)
+        );
     }
 
     @Test
     public void getFoodCheckException() {
-        List<String> expectedPredatorFood = List.of("Животные", "Птицы", "Рыба");
-        String expectedExceptionMessage = "Неизвестный вид животного, используйте значение Травоядное или Хищник";
-
-        try {
-            List<String> actualAnimalFood = animal.getFood("animalKind");
-            assertEquals(expectedPredatorFood, actualAnimalFood);
-        } catch (Exception exception) {
-            String actualException = exception.getMessage();
-            assertEquals(expectedExceptionMessage, actualException);
-        }
+        Throwable throwable = catchThrowable(() -> animal.getFood("unsupported animal kind"));
+        assertThat(throwable)
+                .isInstanceOf(Exception.class)
+                .hasMessage("Неизвестный вид животного, используйте значение Травоядное или Хищник");
     }
-
 }
